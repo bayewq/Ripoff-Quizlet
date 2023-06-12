@@ -3,7 +3,7 @@ import processing.core.PApplet;
 public class Sketch extends PApplet {
 
   public void settings() {
-    size(400, 400);
+    size(1000, 1000);
   }
 
   public void setup() {
