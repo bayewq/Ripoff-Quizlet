@@ -14,7 +14,7 @@ public class Sketch extends PApplet {
   String userInput = "";
   String status = "game1";
   Boolean scored = false;
-  static int score = 5;
+  static int score = 0;
   private Block block;
   public void settings() {
     size(720, 480);
@@ -42,10 +42,12 @@ public class Sketch extends PApplet {
       if (block.getY()>=350 && scored==false){
         block.setY(0);
         block.setX(random(25,450));
+        score -= 1;
       }
       else if (scored){
         block.setY(0);
         block.setX(random(25,450));
+        score ++;
         scored = false;
       }
     }
