@@ -34,6 +34,10 @@ public class Block{
         x = nx;
     }
 
+    public int getX(){
+        return x;
+    }
+
     public void setY(int ny){
         y = ny;
     }
