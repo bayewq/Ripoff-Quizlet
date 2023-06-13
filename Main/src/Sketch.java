@@ -39,7 +39,7 @@ public class Sketch extends PApplet {
       text("Score: "+score,20,445);
       block.draw();
       block.move(0, 1);
-      if (block.getY()>=350 && scored==false){
+      if (block.getY()>=370 && scored==false){
         block.setY(-25);
         block.setX(random(25,450));
         score -= 1;
