@@ -18,7 +18,7 @@ public class Sketch extends PApplet {
   Boolean scored = false;
 
   int currentblock;
-  int currentblock2;
+  int prevblock;
   static int score = 0;
   public void settings() {
     size(720, 480);
@@ -40,13 +40,21 @@ public class Sketch extends PApplet {
     catch(IOException e){
     }
   }
-  public void newBlocks(){
+
+  public void newBlock(){
+    prevblock = currentblock;
     currentblock = random(0,blocks.size()-1);
+    if (prevblock==currentblock){
+      while (prevblock==currentblock){
+        currentblock = random(0,blocks.size()-1);
+      }
+    }
   }
-  public void setup() {
+
+  public void setup() { 
     background(204, 255, 255);
-    loadFromFile("C:\\Users\\bayew\\Desktop\\Final Project\\Main\\src\\terms.txt");
-    newBlocks();
+    loadFromFile("C:\\Users\\Bay\\Desktop\\All\\school\\ics final assignment\\awesomesauce\\Main\\src\\terms.txt");
+    newBlock();
   }
 
   public void draw() {
@@ -64,16 +72,25 @@ public class Sketch extends PApplet {
 
       if(blocks.get(currentblock).getY()>=350 && !scored){
         score -= 1;
+        int prevx = blocks.get(currentblock).getX();
         blocks.get(currentblock).setX(random(50,600));
+        if (prevx==blocks.get(currentblock).getX()){
+          while (prevx==blocks.get(currentblock).getX()){
+            blocks.get(currentblock).setX(random(50,600));
+          }
+        }
+
         blocks.get(currentblock).setY(-25);
       }
       else if (scored){
-        newBlocks();
+        newBlock();
         blocks.get(currentblock).setY(-25);
         score+= 1;
         scored = false;
       }
     }
+
+
 
   }
 
