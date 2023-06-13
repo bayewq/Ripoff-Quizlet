@@ -1,25 +1,33 @@
 import processing.core.PApplet;
 
-public class Block extends Term{
+public class Block{
     private int x;
     private int y;
     private PApplet app;
     private int speed;
+    private String name;
+    private String name2;
 
-    public Block(PApplet p, String name, int x, int y, int speed){
-        super(name);
+    public Block(PApplet p, String name, String name2, int x, int y, int speed){
         this.app = p;
         this.x = x;
         this.y = y;
+        this.name = name;
+        this.name2 = name2;
         this.speed = speed;
     }
 
-    public Block(PApplet p, String name, int x, int y){
-        super(name);
+    public Block(PApplet p, String name, String name2, int x, int y){
         this.app = p;
         this.x = x;
         this.y = y;
+        this.name = name;
+        this.name2 = name2;
         this.speed = 2;
+    }
+
+    public String getName(){
+        return name;
     }
     
     public void setX(int nx){
@@ -44,10 +52,10 @@ public class Block extends Term{
 
     public void draw(){
         app.fill(0,0,0);
-        app.rect(x,y,100,50);
+        app.rect(x,y,150,50);
         app.fill(255,255,255);
         app.textSize(24);
-        app.text(super.name,x+30,y+30);
+        app.text(name2,x+30,y+30);
     }
 
     
