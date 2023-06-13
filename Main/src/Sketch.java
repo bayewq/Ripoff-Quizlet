@@ -40,12 +40,12 @@ public class Sketch extends PApplet {
       block.draw();
       block.move(0, 1);
       if (block.getY()>=350 && scored==false){
-        block.setY(0);
+        block.setY(-25);
         block.setX(random(25,450));
         score -= 1;
       }
       else if (scored){
-        block.setY(0);
+        block.setY(-25);
         block.setX(random(25,450));
         score ++;
         scored = false;
