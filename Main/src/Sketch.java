@@ -27,7 +27,7 @@ public class Sketch extends PApplet {
   private Button createButton;
   private Button learnButton;
 
-
+  int x = 0;
 
   static int score = 0;
   public void settings() {
@@ -65,29 +65,37 @@ public class Sketch extends PApplet {
   public void setup() { 
     background(204, 255, 255);
     loadFromFile("C:\\Users\\Bay\\Desktop\\All\\school\\ics final assignment\\awesomesauce\\Main\\src\\terms.txt");
-    gameButton = new Button(this,100,100,"game");
+    gameButton = new Button(this,100,200,"game");
     backButton = new Button(this,600,418,"exit");
-    adminButton = new Button(this,450,15,"login");
-    learnButton = new Button(this,225,100,"learn");
+    adminButton = new Button(this,450,65,"login");
+    learnButton = new Button(this,225,200,"learn");
+    loadButton = new Button(this,350,200,"load");
+    createButton = new Button (this,475,200,"create");
     newBlock();
+    
   }
 
   public void draw() {
+    
     background(204, 255, 255);
     fill(0,0,0);
     if (!(status.equals("menu"))){
       rect(0, 400, 800,5);
+      backButton.draw();
     }
     
 
     if (status.equals("menu")){
+      score = 0;
       userInput = "";
       fill(0,0,0);
       textSize(32);
-      text("Bootleg Quizlet (TM)",100,50);
+      text("Bootleg Quizlet (TM)",100,100);
       gameButton.draw();
       adminButton.draw();
       learnButton.draw();
+      loadButton.draw();
+      createButton.draw();
     }
     
     else if (status.equals("game1")){
@@ -96,7 +104,7 @@ public class Sketch extends PApplet {
       text("Input: "+userInput,100,450);
       textSize(18);
       text("Score: "+score,10,445);
-      backButton.draw();
+      
       blocks.get(currentblock).draw();
       blocks.get(currentblock).move(0,1);
 
@@ -120,7 +128,21 @@ public class Sketch extends PApplet {
       }
     }
 
+    else if (status.equals("learn")){
 
+    }
+
+    else if (status.equals("create")){
+      
+    }
+    
+    else if (status.equals("load")){
+
+    }
+    
+    else if (status.equals("admin")){
+
+    }
 
   }
 
@@ -136,6 +158,23 @@ public class Sketch extends PApplet {
       status = "menu";
       userInput = "";
       score = 0;
+    }
+
+    if (learnButton.isClicked(mouseX, mouseY) && status.equals("menu")){
+      status = "learn";
+      userInput = "";
+    }
+
+    if (createButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
+      status = "create";
+    }
+
+    if (loadButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
+      status = "create";
+    }
+
+    if (adminButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
+      status = "create";
     }
   }
 
@@ -159,7 +198,7 @@ public class Sketch extends PApplet {
     else if (keyCode == DOWN){
 
     }
-    else if (key != ENTER && status.equals("game1")){
+    else if (key != ENTER){
       userInput+= key;
 
       if(keyCode == BACKSPACE){
