@@ -19,8 +19,15 @@ public class Sketch extends PApplet {
 
   int currentblock;
   int prevblock;
-  private Button button1;
-  private Button backbutton;
+  
+  private Button gameButton;
+  private Button backButton;
+  private Button adminButton;
+  private Button loadButton;
+  private Button createButton;
+  private Button learnButton;
+
+
 
   static int score = 0;
   public void settings() {
@@ -57,32 +64,39 @@ public class Sketch extends PApplet {
 
   public void setup() { 
     background(204, 255, 255);
-    loadFromFile("C:\\Users\\bayew\\Desktop\\Final Project\\Main\\src\\terms.txt");
-    button1 = new Button(this,100,100,"game");
-    backbutton = new Button(this,625,425,"exit");
+    loadFromFile("C:\\Users\\Bay\\Desktop\\All\\school\\ics final assignment\\awesomesauce\\Main\\src\\terms.txt");
+    gameButton = new Button(this,100,100,"game");
+    backButton = new Button(this,600,418,"exit");
+    adminButton = new Button(this,450,15,"login");
+    learnButton = new Button(this,225,100,"learn");
     newBlock();
   }
 
   public void draw() {
     background(204, 255, 255);
+    fill(0,0,0);
+    if (!(status.equals("menu"))){
+      rect(0, 400, 800,5);
+    }
+    
 
     if (status.equals("menu")){
       userInput = "";
       fill(0,0,0);
       textSize(32);
       text("Bootleg Quizlet (TM)",100,50);
-      button1.draw();
-
+      gameButton.draw();
+      adminButton.draw();
+      learnButton.draw();
     }
     
     else if (status.equals("game1")){
       fill(0,0,0);
-      rect(0, 400, 700,5);
       textSize(32);
       text("Input: "+userInput,100,450);
       textSize(18);
       text("Score: "+score,10,445);
-      backbutton.draw();
+      backButton.draw();
       blocks.get(currentblock).draw();
       blocks.get(currentblock).move(0,1);
 
@@ -108,6 +122,21 @@ public class Sketch extends PApplet {
 
 
 
+  }
+
+  public void mousePressed(){
+    
+    if (gameButton.isClicked(mouseX, mouseY) && status.equals("menu")){
+      newBlock();
+      userInput = "";
+      status = "game1";
+    }
+
+    if (backButton.isClicked(mouseX, mouseY) && !(status.equals("menu"))){
+      status = "menu";
+      userInput = "";
+      score = 0;
+    }
   }
 
   public void processInput(){
@@ -142,19 +171,5 @@ public class Sketch extends PApplet {
     }
  
   }
-
-  public void mousePressed(){
-    
-    if (button1.isClicked(mouseX, mouseY) && status.equals("menu")){
-      newBlock();
-      userInput = "";
-      status = "game1";
-    }
-
-    if (backbutton.isClicked(mouseX, mouseY) && !(status.equals("menu"))){
-      status = "menu";
-      userInput = "";
-      score = 0;
-    }
-  }
 }
+  

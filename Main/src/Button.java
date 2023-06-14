@@ -14,18 +14,18 @@ public class Button {
     }
 
     public void draw(){
-        if (text.equals("exit")){
+        if (text.equals("exit") || text.equals("login")){
             app.fill(0,0,0);
             app.rect(x,y,100,50);
             app.fill(255,255,255);
             app.textSize(24);
-            app.text(text,x+30,y+30);
+            app.text(text,x+20,y+32);
         }else{
             app.fill(0,0,0);
             app.rect(x,y,100,100);
             app.fill(255,255,255);
             app.textSize(24);
-            app.text(text,x+30,y+30);
+            app.text(text,x+18,y+55);
         }
         
     }
