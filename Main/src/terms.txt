@@ -3,3 +3,6 @@ apple,manzana
 grape,uva
 pear,pera 
 peach,durazno
+tomato,tomate
+pineapple,pina
+cherry,cereza
