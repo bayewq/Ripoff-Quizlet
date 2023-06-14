@@ -14,7 +14,7 @@ public class Sketch extends PApplet {
   }
 
   String userInput = "";
-  String status = "game1";
+  String status = "menu";
   Boolean scored = false;
 
   int currentblock;
@@ -59,14 +59,21 @@ public class Sketch extends PApplet {
 
   public void draw() {
     background(204, 255, 255);
+
+    if (status.equals("menu")){
+      fill(0,0,0);
+      textSize(32);
+      text("Welcome to knockoff Quizlet (TM)",100,50);
+
+    }
     
-    if (status.equals("game1")){
+    else if (status.equals("game1")){
       fill(0,0,0);
       rect(0, 400, 700,5);
       textSize(32);
       text("Input: "+userInput,100,450);
-      textSize(16);
-      text("Score: "+score,20,445);
+      textSize(18);
+      text("Score: "+score,10,445);
       blocks.get(currentblock).draw();
       blocks.get(currentblock).move(0,1);
 
@@ -102,6 +109,11 @@ public class Sketch extends PApplet {
   }
 
   public void keyPressed() {
+    if (keyCode=='1'){
+      status = "menu";
+      userInput = "";
+    }
+
     if (keyCode == LEFT) {
     
     }
@@ -124,5 +136,10 @@ public class Sketch extends PApplet {
     else if (keyCode == ENTER){
       processInput();
     }
+ 
+  }
+
+  public void mousePressed(){
+    
   }
 }
