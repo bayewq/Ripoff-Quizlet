@@ -14,7 +14,7 @@ public class Button {
     }
 
     public void draw(){
-        if (text.equals("exit") || text.equals("login")){
+        if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")){
             app.fill(0,0,0);
             app.rect(x,y,100,50);
             app.fill(255,255,255);
@@ -31,7 +31,7 @@ public class Button {
     }
 
     public boolean isClicked(int mouseX, int mouseY){
-        if (text.equals("exit") || text.equals("login")){
+        if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")){
             float d = app.dist(mouseX,mouseY,x+45,y);
             return d<=60;
         }

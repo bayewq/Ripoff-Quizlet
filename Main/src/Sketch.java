@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Sketch extends PApplet {
 
   ArrayList<Block> blocks = new ArrayList<Block>();
+  ArrayList<Flashcard> cards = new ArrayList<Flashcard>();
 
   public int random(int min, int max){
     return ThreadLocalRandom.current().nextInt(min, max + 1);
@@ -17,8 +18,9 @@ public class Sketch extends PApplet {
   String status = "menu";
   Boolean scored = false;
 
-  int currentblock;
+  int currentblock = 0;
   int prevblock;
+  int currentCard;
   
   private Button gameButton;
   private Button backButton;
@@ -26,6 +28,8 @@ public class Sketch extends PApplet {
   private Button loadButton;
   private Button createButton;
   private Button learnButton;
+  private Button nextButton;
+  private Button prevButton;
 
   int x = 0;
 
@@ -37,6 +41,7 @@ public class Sketch extends PApplet {
   public void loadFromFile(String file){
     String output = "";
     blocks.clear();
+    cards.clear();
     try{
       Scanner fileInput = new Scanner(new File (file));
       while (fileInput.hasNext()){
@@ -45,6 +50,9 @@ public class Sketch extends PApplet {
         String name = data[0];
         String name2 = data[1];
         Block tempBlock = new Block(this,name,name2,random(20,600),-100);
+        Flashcard tempFlash = new Flashcard(this,name,name2,100,50);
+
+        cards.add(tempFlash);
         blocks.add(tempBlock);
       }
     }
@@ -64,13 +72,15 @@ public class Sketch extends PApplet {
 
   public void setup() { 
     background(204, 255, 255);
-    loadFromFile("C:\\Users\\Bay\\Desktop\\All\\school\\ics final assignment\\awesomesauce\\Main\\src\\terms.txt");
+    loadFromFile("Main\\src\\terms.txt");
     gameButton = new Button(this,100,200,"game");
     backButton = new Button(this,600,418,"exit");
     adminButton = new Button(this,450,65,"login");
     learnButton = new Button(this,225,200,"learn");
     loadButton = new Button(this,350,200,"load");
     createButton = new Button (this,475,200,"create");
+    nextButton = new Button(this,375,420,"next");
+    prevButton = new Button(this,225,420,"back");
     newBlock();
     
   }
@@ -129,7 +139,9 @@ public class Sketch extends PApplet {
     }
 
     else if (status.equals("learn")){
-
+      cards.get(currentCard).draw();
+      nextButton.draw();
+      prevButton.draw();
     }
 
     else if (status.equals("create")){
@@ -161,8 +173,9 @@ public class Sketch extends PApplet {
     }
 
     if (learnButton.isClicked(mouseX, mouseY) && status.equals("menu")){
+      cards.get(currentCard).reset();
       status = "learn";
-      userInput = "";
+      cards.get(currentCard).reset();
     }
 
     if (createButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
@@ -170,12 +183,37 @@ public class Sketch extends PApplet {
     }
 
     if (loadButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
-      status = "create";
+      status = "load";
     }
 
     if (adminButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
-      status = "create";
+      status = "admin";
     }
+
+    if (cards.get(currentCard).isClicked(dmouseX, dmouseY) && status.equals("learn")){
+      cards.get(currentCard).flip();
+    }
+
+    else if (nextButton.isClicked(dmouseX, dmouseY) && status.equals("learn")){
+      cards.get(currentCard).reset();
+      if (currentCard == cards.size()-1){
+        currentCard = 0;
+      }
+      else{
+        currentCard++;
+      }
+    }
+
+    else if (prevButton.isClicked(dmouseX, dmouseY) && status.equals("learn")){
+      cards.get(currentCard).reset();
+      if (currentCard == 0){
+        currentCard = cards.size()-1;
+      }
+      else{
+        currentCard--;
+      }
+    }
+
   }
 
   public void processInput(){

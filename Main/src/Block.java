@@ -29,6 +29,14 @@ public class Block{
     public String getName(){
         return name;
     }
+
+    public PApplet getApp(){
+        return app;
+    }
+
+    public String getName2(){
+        return name2;
+    }
     
     public void setX(int nx){
         x = nx;
