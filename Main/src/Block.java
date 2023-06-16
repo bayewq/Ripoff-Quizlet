@@ -4,11 +4,11 @@ public class Block{
     private int x;
     private int y;
     private PApplet app;
-    private int speed;
+    private double speed;
     private String name;
     private String name2;
 
-    public Block(PApplet p, String name, String name2, int x, int y, int speed){
+    public Block(PApplet p, String name, String name2, int x, int y, double speed){
         this.app = p;
         this.x = x;
         this.y = y;
@@ -23,7 +23,7 @@ public class Block{
         this.y = y;
         this.name = name;
         this.name2 = name2;
-        this.speed = 2;
+        this.speed = 1;
     }
 
     public String getName(){
@@ -53,7 +53,7 @@ public class Block{
         return y;
     }
 
-    public void setSpeed(int nspeed){
+    public void setSpeed(double nspeed){
         speed = nspeed;
     }
 

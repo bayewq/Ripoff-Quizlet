@@ -32,7 +32,7 @@ public class Button {
 
     public boolean isClicked(int mouseX, int mouseY){
         if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")){
-            float d = app.dist(mouseX,mouseY,x+45,y);
+            float d = app.dist(mouseX,mouseY,x+45,y+50);
             return d<=60;
         }
         else{

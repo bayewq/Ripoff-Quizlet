@@ -17,10 +17,13 @@ public class Sketch extends PApplet {
   String userInput = "";
   String status = "menu";
   Boolean scored = false;
-
-  int currentblock = 0;
-  int prevblock;
+  int createStage = 0;
+  int currentBlock = 0;
+  int prevBlock;
   int currentCard;
+  String fileName;
+  String term1;
+  String term2;
   boolean loaded = false;
   private Button gameButton;
   private Button backButton;
@@ -50,9 +53,8 @@ public class Sketch extends PApplet {
         String name = data[0];
         String name2 = data[1];
         Block tempBlock = new Block(this,name,name2,random(20,600),-100);
-        Flashcard tempFlash = new Flashcard(this,name,name2,100,50);
-
-        cards.add(tempFlash);
+        Block tempBlock2 = new Flashcard(this,name,name2,100,50);
+        cards.add(((Flashcard)tempBlock2));
         blocks.add(tempBlock);
       }
     }
@@ -60,15 +62,14 @@ public class Sketch extends PApplet {
     }
   }
 
-  public void newBlock(){
-    prevblock = currentblock;
-    currentblock = random(0,blocks.size()-1);
-    if (prevblock==currentblock){
-      while (prevblock==currentblock){
-        currentblock = random(0,blocks.size()-1);
-      }
+  public void newBlock() {
+    prevBlock = currentBlock;
+    currentBlock = random(0, blocks.size() - 1);
+
+    if (prevBlock == currentBlock) {
+        newBlock();
     }
-  }
+}
 
   public void setup() { 
     background(204, 255, 255);
@@ -93,7 +94,6 @@ public class Sketch extends PApplet {
       rect(0, 400, 800,5);
       backButton.draw();
     }
-    
 
     if (status.equals("menu")){
       score = 0;
@@ -108,6 +108,29 @@ public class Sketch extends PApplet {
       createButton.draw();
     }
     
+    else if (status.equals("create")){
+      prevButton.draw();
+      nextButton.draw();
+      textSize(32);
+      fill(0,0,0);
+      
+      if (createStage == 0){
+        text("Enter filename: "+userInput,100,200);
+      }
+      else if (createStage == 1){
+        text("Enter term 1: "+userInput,100,200);
+      }
+      else if (createStage == 2){
+        text("Enter term 2: "+userInput,100,200);
+      }
+      else if (createStage == 3){
+        text("Press enter to confirm:",100,100);
+        text("filename: "+fileName,100,150);
+        text("term1: "+term1,100,200);
+        text("term2: "+term2,100,250);  
+      }
+    }
+    
     else if (status.equals("game1")){
       fill(0,0,0);
       textSize(32);
@@ -115,25 +138,27 @@ public class Sketch extends PApplet {
       textSize(18);
       text("Score: "+score,10,445);
       
-      blocks.get(currentblock).draw();
-      blocks.get(currentblock).move(0,1);
+      blocks.get(currentBlock).draw();
+      blocks.get(currentBlock).move(0,1);
 
-      if(blocks.get(currentblock).getY()>=350 && !scored){
+      if(blocks.get(currentBlock).getY()>=350 && !scored){
         score -= 1;
-        int prevx = blocks.get(currentblock).getX();
-        blocks.get(currentblock).setX(random(50,600));
-        if (prevx==blocks.get(currentblock).getX()){
-          while (prevx==blocks.get(currentblock).getX()){
-            blocks.get(currentblock).setX(random(50,600));
+        int prevX = blocks.get(currentBlock).getX();
+        blocks.get(currentBlock).setX(random(50,600));
+        if (prevX==blocks.get(currentBlock).getX()){
+          while (prevX==blocks.get(currentBlock).getX()){
+            blocks.get(currentBlock).setX(random(50,600));
           }
         }
 
-        blocks.get(currentblock).setY(-25);
+        blocks.get(currentBlock).setY(-25);
       }
       else if (scored){
         newBlock();
-        blocks.get(currentblock).setY(-25);
-        score+= 1;
+        blocks.get(currentBlock).setY(-25);
+        score++;
+        double mult = score/10;
+        blocks.get(currentBlock).setSpeed(1+mult);
         scored = false;
       }
     }
@@ -142,10 +167,6 @@ public class Sketch extends PApplet {
       cards.get(currentCard).draw();
       nextButton.draw();
       prevButton.draw();
-    }
-
-    else if (status.equals("create")){
-      
     }
     
     else if (status.equals("load")){
@@ -179,13 +200,14 @@ public class Sketch extends PApplet {
     }
 
     if (learnButton.isClicked(mouseX, mouseY) && status.equals("menu")){
+      currentCard = 0;
       cards.get(currentCard).reset();
       status = "learn";
-      cards.get(currentCard).reset();
     }
 
     if (createButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
       status = "create";
+      userInput = "";
     }
 
     if (loadButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
@@ -200,36 +222,65 @@ public class Sketch extends PApplet {
       cards.get(currentCard).flip();
     }
 
-    else if (nextButton.isClicked(dmouseX, dmouseY) && status.equals("learn")){
-      cards.get(currentCard).reset();
-      if (currentCard == cards.size()-1){
-        currentCard = 0;
+    else if (nextButton.isClicked(dmouseX, dmouseY)){
+      if (status.equals("learn")){
+        cards.get(currentCard).reset();
+        if (currentCard == cards.size()-1){
+          currentCard = 0;
+        }
+        else{
+          currentCard++;
+        }
       }
-      else{
-        currentCard++;
+      else if (status.equals("create")){
+        createStage++;
       }
+      
     }
 
-    else if (prevButton.isClicked(dmouseX, dmouseY) && status.equals("learn")){
-      cards.get(currentCard).reset();
-      if (currentCard == 0){
-        currentCard = cards.size()-1;
+    else if (prevButton.isClicked(dmouseX, dmouseY)){
+      
+      if (status.equals("learn")){
+        cards.get(currentCard).reset();
+        if (currentCard == 0){
+          currentCard = cards.size()-1;
+        }
+        else{
+          currentCard--;
+        }
       }
-      else{
-        currentCard--;
+      else if (status.equals("create")){
+        createStage--;
       }
     }
 
   }
 
   public void processInput(){
-    if (status.equals("game1") && userInput.equals(blocks.get(currentblock).getName())){
+    if (status.equals("game1") && userInput.equals(blocks.get(currentBlock).getName())){
       scored = true;
     }
     else if (status.equals("load")){
       loadFromFile("Main\\src\\"+userInput);
       loaded = true;
       userInput="";
+    }
+    else if (status.equals("create")){
+      if (createStage == 0){
+        fileName = userInput;
+        userInput = "";
+      }
+      else if(createStage == 1){
+        term1 = userInput;
+        userInput = "";
+      }
+      else if (createStage == 2){
+        term2 = userInput;
+        userInput = "";
+      }
+      else if (createStage == 3){
+        createStage = 4;
+      }
     }
   }
 
@@ -255,6 +306,7 @@ public class Sketch extends PApplet {
     }
     else if (keyCode == ENTER){
       processInput();
+      userInput = "";
     }
  
   }
