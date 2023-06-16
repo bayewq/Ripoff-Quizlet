@@ -15,15 +15,15 @@ public class Button {
 
     public void draw(){
         if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")){
-            app.fill(0,0,0);
-            app.rect(x,y,100,50);
             app.fill(255,255,255);
+            app.rect(x,y,100,50);
+            app.fill(0,0,0);
             app.textSize(24);
             app.text(text,x+20,y+32);
         }else{
-            app.fill(0,0,0);
-            app.rect(x,y,100,100);
             app.fill(255,255,255);
+            app.rect(x,y,100,100);
+            app.fill(0,0,0);
             app.textSize(24);
             app.text(text,x+18,y+55);
         }

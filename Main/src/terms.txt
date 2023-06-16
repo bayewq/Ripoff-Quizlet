@@ -6,3 +6,6 @@ peach,durazno
 tomato,tomate
 pineapple,pina
 cherry,cereza
+cheese,queso
+egg,huevo
+sausage,embutido

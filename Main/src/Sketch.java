@@ -21,7 +21,7 @@ public class Sketch extends PApplet {
   int currentblock = 0;
   int prevblock;
   int currentCard;
-  
+  boolean loaded = false;
   private Button gameButton;
   private Button backButton;
   private Button adminButton;
@@ -149,7 +149,12 @@ public class Sketch extends PApplet {
     }
     
     else if (status.equals("load")){
-
+      fill(0,0,0);
+      textSize(32);
+      text("Load from: "+userInput,25,450);
+      if (loaded){
+        text("file loaded!",100,100);
+      }
     }
     
     else if (status.equals("admin")){
@@ -168,6 +173,7 @@ public class Sketch extends PApplet {
 
     if (backButton.isClicked(mouseX, mouseY) && !(status.equals("menu"))){
       status = "menu";
+      loaded = false;
       userInput = "";
       score = 0;
     }
@@ -217,10 +223,14 @@ public class Sketch extends PApplet {
   }
 
   public void processInput(){
-    if (userInput.equals(blocks.get(currentblock).getName())){
+    if (status.equals("game1") && userInput.equals(blocks.get(currentblock).getName())){
       scored = true;
     }
-    userInput="";
+    else if (status.equals("load")){
+      loadFromFile("Main\\src\\"+userInput);
+      loaded = true;
+      userInput="";
+    }
   }
 
   public void keyPressed() {
