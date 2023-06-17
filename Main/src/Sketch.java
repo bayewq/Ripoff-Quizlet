@@ -43,6 +43,8 @@ public class Sketch extends PApplet {
 
   public void loadFromFile(String file){
     //dkasjbdkjasbdbaskjbdksjabdkjasbdkjasbdkjasbkjdbaskjdbaskjdbaksjbdakjsbdkjasbkdbaksj
+    //asbdkjsabkdbsakd
+    //ppeeee poooo 
     
     String output = "";
     blocks.clear();
