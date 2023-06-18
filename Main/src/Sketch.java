@@ -2,6 +2,7 @@ import processing.core.PApplet;
 import java.io.File;
 import java.util.Scanner;
 import java.io.IOException;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -27,7 +28,7 @@ public class Sketch extends PApplet {
   boolean loaded = false;
   private Button gameButton;
   private Button backButton;
-  private Button adminButton;
+  private Button gameButton2;
   private Button loadButton;
   private Button createButton;
   private Button learnButton;
@@ -42,9 +43,6 @@ public class Sketch extends PApplet {
   }
 
   public void loadFromFile(String file){
-    //dkasjbdkjasbdbaskjbdksjabdkjasbdkjasbdkjasbkjdbaskjdbaskjdbaksjbdakjsbdkjasbkdbaksj
-    //asbdkjsabkdbsakd
-    //ppeeee poooo 
     
     String output = "";
     blocks.clear();
@@ -80,7 +78,7 @@ public class Sketch extends PApplet {
     loadFromFile("Main\\src\\terms.txt");
     gameButton = new Button(this,100,200,"game");
     backButton = new Button(this,600,418,"exit");
-    adminButton = new Button(this,450,65,"login");
+    gameButton2 = new Button(this,450,65,"game2");
     learnButton = new Button(this,225,200,"learn");
     loadButton = new Button(this,350,200,"load");
     createButton = new Button (this,475,200,"create");
@@ -106,15 +104,18 @@ public class Sketch extends PApplet {
       textSize(32);
       text("Bootleg Quizlet (TM)",100,100);
       gameButton.draw();
-      adminButton.draw();
+      gameButton2.draw();
       learnButton.draw();
       loadButton.draw();
       createButton.draw();
     }
     
     else if (status.equals("create")){
+      if (createStage != 4){
+        nextButton.draw();
+      }
       prevButton.draw();
-      nextButton.draw();
+      
       textSize(32);
       fill(0,0,0);
       
@@ -132,6 +133,9 @@ public class Sketch extends PApplet {
         text("filename: "+fileName,100,150);
         text("term1: "+term1,100,200);
         text("term2: "+term2,100,250);  
+      }
+      else if (createStage == 4){
+        text("done.",100,100);
       }
     }
     
@@ -182,8 +186,9 @@ public class Sketch extends PApplet {
       }
     }
     
-    else if (status.equals("admin")){
-
+    else if (status.equals("game2")){
+      textSize(18);
+      text("Score: "+score,10,445);
     }
 
   }
@@ -211,6 +216,7 @@ public class Sketch extends PApplet {
 
     if (createButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
       status = "create";
+      createStage = 0;
       userInput = "";
     }
 
@@ -218,8 +224,8 @@ public class Sketch extends PApplet {
       status = "load";
     }
 
-    if (adminButton.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
-      status = "admin";
+    if (gameButton2.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
+      status = "game2";
     }
 
     if (cards.get(currentCard).isClicked(dmouseX, dmouseY) && status.equals("learn")){
@@ -237,6 +243,9 @@ public class Sketch extends PApplet {
         }
       }
       else if (status.equals("create")){
+        if (createStage == 3){
+          processInput();
+        }
         createStage++;
       }
       
@@ -283,24 +292,34 @@ public class Sketch extends PApplet {
         userInput = "";
       }
       else if (createStage == 3){
-        createStage = 4;
+        try{
+          FileWriter writer = new FileWriter("Main/src/"+fileName, true);
+          writer.write(term1+","+term2+"\n");
+          writer.close();
+        }
+        catch(IOException e){
+          System.out.println("fail");
+        }
       }
     }
   }
 
   public void keyPressed() {
-    if (keyCode == LEFT) {
+    if (status.equals("game2")){
+      if (keyCode == LEFT) {
+
+      }
+      else if (keyCode == RIGHT) {
+
+      }
+      else if (keyCode == UP){
+
+      }
+      else if (keyCode == DOWN){
+
+      }
+    }
     
-    }
-    else if (keyCode == RIGHT) {
-
-    }
-    else if (keyCode == UP){
-
-    }
-    else if (keyCode == DOWN){
-
-    }
     else if (key != ENTER){
       userInput+= key;
 
