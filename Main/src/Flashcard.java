@@ -3,10 +3,12 @@ import java.util.jar.Attributes.Name;
 import processing.core.PApplet;
 
 public class Flashcard extends Block{
-    String curName = super.getName();
+    private String curName = super.getName();
+    private Button butt;
 
-    public Flashcard(PApplet p, String name, String name2, int x, int y){
+    public Flashcard(PApplet p, String name, String name2, int x, int y, Button butt){
         super(p,name,name2,x,y);
+        this.butt = butt;
     }
 
     public void draw(){
@@ -18,8 +20,12 @@ public class Flashcard extends Block{
     }
 
     public boolean isClicked(int mouseX, int mouseY){
-        float d = super.getApp().dist(mouseX,mouseY,super.getX()+250,super.getY());
-        return d<295;
+        if(butt.isClicked(mouseX, mouseY)){
+            return true;
+        }
+        else{
+            return false;
+        }
 
     }
 

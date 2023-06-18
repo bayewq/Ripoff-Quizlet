@@ -13,6 +13,13 @@ public class Button {
         this.app = p;
     }
 
+    public Button (PApplet p, int x, int y){
+        this.app = p;
+        this.x = x;
+        this.y = y;
+        this.text = "";
+    }
+
     public void draw(){
         if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")){
             app.fill(255,255,255);
@@ -20,7 +27,11 @@ public class Button {
             app.fill(0,0,0);
             app.textSize(24);
             app.text(text,x+20,y+32);
-        }else{
+        }
+        else if (text.equals("")){
+
+        }
+        else{
             app.fill(255,255,255);
             app.rect(x,y,100,100);
             app.fill(0,0,0);
@@ -34,6 +45,11 @@ public class Button {
         if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")){
             float d = app.dist(mouseX,mouseY,x+45,y+50);
             return d<=60;
+        }
+        else if (text.equals("")){
+            float d = app.dist(mouseX,mouseY,x+250,y);
+            return d<295;
+
         }
         else{
             float d = app.dist(mouseX,mouseY,x+45,y);

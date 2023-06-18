@@ -2,6 +2,9 @@ import processing.core.PApplet;
 import java.io.File;
 import java.util.Scanner;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -25,7 +28,10 @@ public class Sketch extends PApplet {
   String fileName;
   String term1;
   String term2;
+  int textX = random(10,600);
+  int textY = random(10,400);
   boolean loaded = false;
+  int curBlockX = 0;
   private Button gameButton;
   private Button backButton;
   private Button gameButton2;
@@ -42,22 +48,46 @@ public class Sketch extends PApplet {
     size(720, 480);
   }
 
+  public static int getNumberLines(String fileName) {
+
+      Path path = Paths.get(fileName);
+
+      long lines = 0;
+      try {
+          lines = Files.lines(path).count();
+
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+      int intlines = (int) lines;
+      return intlines;
+
+  }
+
   public void loadFromFile(String file){
-    
+    int totalLines = getNumberLines(file);
+    int currentLine = 0;
     String output = "";
     blocks.clear();
     cards.clear();
+    String[][] importArray = new String[totalLines][2];
     try{
       Scanner fileInput = new Scanner(new File (file));
       while (fileInput.hasNext()){
         output = fileInput.nextLine();
         String[] data = output.split(",",0);
-        String name = data[0];
-        String name2 = data[1];
+        importArray[currentLine][0] = data[0];
+        importArray[currentLine][1] = data[1];
+
+        String name = importArray[currentLine][0];
+        String name2 = importArray[currentLine][1];
+
         Block tempBlock = new Block(this,name,name2,random(20,600),-100);
-        Block tempBlock2 = new Flashcard(this,name,name2,100,50);
+        Button butt = new Button(this,100,50);
+        Block tempBlock2 = new Flashcard(this,name,name2,100,50,butt);
         cards.add(((Flashcard)tempBlock2));
         blocks.add(tempBlock);
+        currentLine++;
       }
     }
     catch(IOException e){
@@ -78,7 +108,7 @@ public class Sketch extends PApplet {
     loadFromFile("Main\\src\\terms.txt");
     gameButton = new Button(this,100,200,"game");
     backButton = new Button(this,600,418,"exit");
-    gameButton2 = new Button(this,450,65,"game2");
+    gameButton2 = new Button(this,100,325,"game2");
     learnButton = new Button(this,225,200,"learn");
     loadButton = new Button(this,350,200,"load");
     createButton = new Button (this,475,200,"create");
@@ -188,7 +218,16 @@ public class Sketch extends PApplet {
     
     else if (status.equals("game2")){
       textSize(18);
+      blocks.get(currentBlock).draw();
+      fill(0,0,0);
       text("Score: "+score,10,445);
+      text(blocks.get(currentBlock).getName(),textX,textY);
+      
+      if (dist(blocks.get(currentBlock).getX(),blocks.get(currentBlock).getY(),textX,textY)<50){
+        scored = true;
+        processInput();
+      }
+
     }
 
   }
@@ -225,6 +264,8 @@ public class Sketch extends PApplet {
     }
 
     if (gameButton2.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
+      newBlock();
+      blocks.get(currentBlock).setY(100);
       status = "game2";
     }
 
@@ -252,7 +293,6 @@ public class Sketch extends PApplet {
     }
 
     else if (prevButton.isClicked(dmouseX, dmouseY)){
-      
       if (status.equals("learn")){
         cards.get(currentCard).reset();
         if (currentCard == 0){
@@ -302,21 +342,29 @@ public class Sketch extends PApplet {
         }
       }
     }
+    else if (status.equals("game2")){
+      score++;
+      newBlock();
+      blocks.get(currentBlock).setY(100);
+      textX = random(10, 600);
+      textY = random(10,400);
+      scored = false;
+    }
   }
 
   public void keyPressed() {
     if (status.equals("game2")){
       if (keyCode == LEFT) {
-
+        blocks.get(currentBlock).move(-5,0);
       }
       else if (keyCode == RIGHT) {
-
+        blocks.get(currentBlock).move(5,0);
       }
       else if (keyCode == UP){
-
+        blocks.get(currentBlock).move(0,-5);
       }
       else if (keyCode == DOWN){
-
+        blocks.get(currentBlock).move(0,5);
       }
     }
     

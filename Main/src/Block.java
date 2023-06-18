@@ -70,5 +70,7 @@ public class Block{
         app.text(name2,x+30,y+30);
     }
 
+
+
     
 }
