@@ -355,16 +355,16 @@ public class Sketch extends PApplet {
   public void keyPressed() {
     if (status.equals("game2")){
       if (keyCode == LEFT) {
-        blocks.get(currentBlock).move(-5,0);
+        blocks.get(currentBlock).move(-10,0);
       }
       else if (keyCode == RIGHT) {
-        blocks.get(currentBlock).move(5,0);
+        blocks.get(currentBlock).move(10,0);
       }
       else if (keyCode == UP){
-        blocks.get(currentBlock).move(0,-5);
+        blocks.get(currentBlock).move(0,-10);
       }
       else if (keyCode == DOWN){
-        blocks.get(currentBlock).move(0,5);
+        blocks.get(currentBlock).move(0,10);
       }
     }
     
