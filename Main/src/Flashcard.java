@@ -5,6 +5,8 @@ import processing.core.PApplet;
  * It is a subclass of the Block class and adds functionality specific to flashcards.
  */
 public class Flashcard extends Block {
+    
+    // init variables 
     private String curName = super.getName();  // Current name being displayed on the flashcard
     private Button butt;                        // Button associated with the flashcard
 
