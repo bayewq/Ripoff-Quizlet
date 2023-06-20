@@ -9,15 +9,15 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * This class represents a sketch that extends the PApplet class from the Processing library.
+ * It includes methods for creating blocks and flashcards, loading data from a file, and handling user input.
+ */
+
 public class Sketch extends PApplet {
 
   ArrayList<Block> blocks = new ArrayList<Block>();
   ArrayList<Flashcard> cards = new ArrayList<Flashcard>();
-
-  public int random(int min, int max){
-    return ThreadLocalRandom.current().nextInt(min, max + 1);
-  }
-
   String userInput = "";
   String status = "menu";
   Boolean scored = false;
@@ -40,14 +40,42 @@ public class Sketch extends PApplet {
   private Button learnButton;
   private Button nextButton;
   private Button prevButton;
-
   int x = 0;
-
   static int score = 0;
+
+  /**
+   * Generates a random integer within the specified range.
+   *
+   * @param min the minimum value (inclusive)
+   * @param max the maximum value (inclusive)
+   * @return a random integer within the specified range
+   */
+
+  public int random(int min, int max){
+    return ThreadLocalRandom.current().nextInt(min, max + 1);
+  }
+
+  /**
+   * Sets the settings for the sketch window.
+   * 
+   * This method is called before the sketch starts and is used to set the initial settings for 
+   * the sketch window. In this case, it sets the size of the window to 720 pixels wide and 
+   * 480 pixels high using the size() function provided by the processing library.
+   * 
+   * It is recommended to call this method once in the setup() method of the sketch.
+   */
+
   public void settings() {
     size(720, 480);
   }
 
+  /**
+   * Retrieves the number of lines in a file.
+   *
+   * @param fileName the name of the file to be processed
+   * @return the number of lines in the file as an integer
+   * @throws IOException if an I/O error occurs while reading the file
+   */
   public static int getNumberLines(String fileName) {
 
       Path path = Paths.get(fileName);
@@ -63,7 +91,12 @@ public class Sketch extends PApplet {
       return intlines;
 
   }
-
+  /**
+   * Retrieves the number of lines in a file.
+   *
+   * @param file the name of the file to be processed
+   * @throws IOException if an I/O error occurs while reading the file
+   */
   public void loadFromFile(String file){
     int totalLines = getNumberLines(file);
     int currentLine = 0;
@@ -94,6 +127,9 @@ public class Sketch extends PApplet {
     }
   }
 
+  /**
+   * Generates a new block # and checks if it's the same as the previous
+   */
   public void newBlock() {
     prevBlock = currentBlock;
     currentBlock = random(0, blocks.size() - 1);
@@ -102,6 +138,9 @@ public class Sketch extends PApplet {
         newBlock();
     }
 }
+  /**
+   * Setup method that runs once at the start of the program, this is where I set up all of my objects and load the first terms from the file. 
+   */
 
   public void setup() { 
     background(204, 255, 255);
@@ -118,6 +157,9 @@ public class Sketch extends PApplet {
     
   }
 
+  /**
+   * Draw method that draws stuff to the screen; runs multiple times per second
+   */
   public void draw() {
     
     background(204, 255, 255);
@@ -232,6 +274,9 @@ public class Sketch extends PApplet {
 
   }
 
+  /**
+   * Method that runs as long as the mouse is pressed, used for detecting clicks 
+   */
   public void mousePressed(){
     
     if (gameButton.isClicked(mouseX, mouseY) && status.equals("menu")){
@@ -309,6 +354,9 @@ public class Sketch extends PApplet {
 
   }
 
+  /**
+   * Method that runs when the user presses enter (to input text), used for (obviously) processing the input with regard to the current context of the situation
+   */
   public void processInput(){
     if (status.equals("game1") && userInput.equals(blocks.get(currentBlock).getName())){
       scored = true;
@@ -352,6 +400,9 @@ public class Sketch extends PApplet {
     }
   }
 
+  /**
+   * Method that runs whenever a key is pressed; used for moving object around the screen with arrow keys as well as for user inputting text on the sdreen. 
+   */
   public void keyPressed() {
     if (status.equals("game2")){
       if (keyCode == LEFT) {
