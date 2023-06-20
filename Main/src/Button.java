@@ -45,14 +45,18 @@ public class Button {
      * The appearance of the button depends on its text value.
      */
     public void draw() {
+        
+        // draws differently based on what type of button it is 
         if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")) {
             app.fill(255, 255, 255);
             app.rect(x, y, 100, 50);
             app.fill(0, 0, 0);
             app.textSize(24);
             app.text(text, x + 20, y + 32);
-        } else if (text.equals("")) {
-            // Do nothing
+        } 
+        // draws nothing if its a button with no text
+        else if (text.equals("")) {
+
         } else {
             app.fill(255, 255, 255);
             app.rect(x, y, 100, 100);
@@ -70,6 +74,8 @@ public class Button {
      * @return true if the button is clicked, false otherwise.
      */
     public boolean isClicked(int mouseX, int mouseY) {
+        
+        // checks what text it is and calculates distance differently 
         if (text.equals("exit") || text.equals("login") || text.equals("next") || text.equals("back")) {
             float d = app.dist(mouseX, mouseY, x + 45, y + 50);
             return d <= 60;

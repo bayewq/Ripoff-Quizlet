@@ -129,6 +129,7 @@ public class Block {
      * @param ny The amount to move in the Y direction.
      */
     public void move(int nx, int ny) {
+        // moves the block a certain amount depending on the speed
         x += nx * speed;
         y += ny * speed;
     }
