@@ -157,14 +157,13 @@ public class Sketch extends PApplet {
    * Generates a new block # and checks if it's the same as the previous, using recursion
    */
   public void newBlock() {
-    // stores the currentblock
-    prevBlock = currentBlock;
 
     //randomizes the block value
     currentBlock = random(0, blocks.size() - 1);
 
     // checks if the new block is the same as the previous block
     if (prevBlock == currentBlock) {
+        System.out.println("common L");
         newBlock();
     }
 }
@@ -191,6 +190,7 @@ public class Sketch extends PApplet {
     prevButton = new Button(this,225,420,"back");
     
     // randomizes which block to choose
+    prevBlock = currentBlock;
     newBlock();
     
   }
@@ -295,6 +295,7 @@ public class Sketch extends PApplet {
       // if the user types the right thing in then score is added 
       else if (scored){
         // generate new block (different term )
+        prevBlock = currentBlock;
         newBlock();
 
         // set new block to offscreen
@@ -355,6 +356,7 @@ public class Sketch extends PApplet {
     
     // checks if game button is clicked as well as if the user is on the menu and sets the status to game1
     if (gameButton.isClicked(mouseX, mouseY) && status.equals("menu")){
+      prevBlock = currentBlock;
       newBlock();
       userInput = "";
       status = "game1";
@@ -389,6 +391,7 @@ public class Sketch extends PApplet {
 
     // takes user to game2 menu if game2 button is clicked 
     if (gameButton2.isClicked(dmouseX, dmouseY)&& status.equals("menu")){
+      prevBlock = currentBlock;
       newBlock();
       blocks.get(currentBlock).setY(100);
       status = "game2";
@@ -496,6 +499,7 @@ public class Sketch extends PApplet {
     else if (status.equals("game2")){
       score++;
       // generates new block
+      prevBlock = currentBlock;
       newBlock();
       // sets block position to y = 100
       blocks.get(currentBlock).setY(100);
